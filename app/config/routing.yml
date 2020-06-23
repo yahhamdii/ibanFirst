@@ -1,0 +1,4 @@
+iban_api:
+    resource: "@IbanApiBundle/Controller/"
+    type:     annotation
+    prefix:   /

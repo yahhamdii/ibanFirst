@@ -1,0 +1,90 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: errors.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+parameters:
+    locale: fr
+    resettingRetryTtl: 300
+
+framework:
+    templating:
+        engines: ['twig']
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    cache: false
+    globals:
+        kernelRootDir: '%kernel.root_dir%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: '%database_driver%'
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+
+    orm:
+        auto_generate_proxy_classes: true
+        proxy_dir: '%kernel.cache_dir%/doctrine/orm/Proxies'
+        proxy_namespace:      Proxies
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        dql:
+            string_functions:
+                regexp: DoctrineExtensions\Query\Mysql\Regexp
+            numeric_functions:
+                rand: DoctrineExtensions\Query\Mysql\Rand
+fos_rest:
+    routing_loader:
+        default_format: json
+    view:
+        view_response_listener: true
+    body_converter:
+        enabled: true
+    param_fetcher_listener: force        
+    body_listener: true
+    #serializer:
+        #serialize_null: true
+    exception:
+        enabled: true
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: 'json'}
+            #- { path: '^/', priorities: ['json'], fallback_format: 'json' }
+            - { path: '^/', stop: true }
+            - { path: '^/api', stop: true }
+
+#resolve error when update inexist entity
+jms_serializer:
+    object_constructors:
+        doctrine:
+            fallback_strategy: 'exception'

@@ -1,0 +1,17 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: localhost
+    database_port: 3306
+    database_name: iban_first
+    database_user: root
+    database_password: rootroot
+    database_driver: pdo_mysql
+    secret: ThisTokenIsNotSoSecretChangeIt
+    iban_url: https://sandbox2.ibanfirst.com/api/
+    iban_login: a00720d
+    iban_password: 6KPPczga4H6pR+ZeMj+iQ5UpB0foUoO3hQWOjUiYkESU3HGLfXwce8He7TfwY/k4c3hAcFViIFfKUC+GwcbYsQ==
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ThisTokenIsNotSoSecretChangeIt
